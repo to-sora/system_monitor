@@ -1,0 +1,15 @@
+[Unit]
+Description=System Monitor Upload Script
+After=network.target system-monitor-backend.service
+Requires=system-monitor-backend.service
+
+
+[Service]
+Type=simple
+User="TODO"
+WorkingDirectory="TODO"
+ExecStart=/usr/bin/python3 upload_stat_loop.py
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

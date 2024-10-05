@@ -1,0 +1,29 @@
+server:
+  port: 3000
+  host: 0.0.0.0
+  ssl:
+    enabled: false
+    keyPath: /path/to/ssl/key.pem
+    certPath: /path/to/ssl/cert.pem
+
+database:
+  uri: mongodb://localhost:27017/system_monitor
+  options:
+    useNewUrlParser: true
+    useUnifiedTopology: true
+  backup:
+    frequency: 30 # in minutes
+    path: /path/to/backup/directory
+
+auth:
+  jwtSecret: your_jwt_secret_key
+  tokenExpiry: '7d'
+
+apiSecurity:
+  allowedIPs:
+    - "192.168.1.100"
+    - "192.168.1.101"
+
+logging:
+  level: info
+  filePath: ./logs/app.log

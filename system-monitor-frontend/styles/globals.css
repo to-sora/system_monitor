@@ -1,0 +1,204 @@
+/* styles/globals.css */
+body {
+margin: 0;
+font-family: Arial, sans-serif;
+}
+
+.navbar {
+background-color: #333;
+color: #fff;
+
+}
+
+.navbar-logo a {
+color: #fff;
+text-decoration: none;
+font-size: 1em;
+}
+
+.navbar-links {
+list-style: none;
+display: flex;
+gap: 1 em;
+}
+
+.navbar-links li a {
+color: #fff;
+text-decoration: none;
+}
+
+.page-container {
+padding: 0.1em;
+}
+
+.selection-container {
+display: flex;
+gap: 1em;
+}
+
+.data-display {
+margin-top: 1em;
+}
+
+
+.error {
+color: red;
+}
+
+.login-container {
+max-width: 400px;
+margin: 2em auto;
+padding: 2em;
+border: 1px solid #ccc;
+}
+
+.login-container h1 {
+text-align: center;
+}
+
+.login-container form {
+display: flex;
+flex-direction: column;
+gap: 1em;
+}
+
+.login-container label {
+display: flex;
+flex-direction: column;
+}
+
+.login-container button {
+padding: 0.5em;
+}
+/* styles/globals.css */
+
+
+
+/* Adjust page container to allow content to define height */
+.page-container {
+/* Remove height: 100vh; */
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+}
+
+/* Ensure main does not hide overflow */
+
+
+
+.selection-container {
+flex: 0 0 auto;
+}
+
+
+.graph-container, .log-container {
+  /* Remove height settings */
+  /* height: 400px; */ /* Remove this line */
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.chart-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.chart-wrapper canvas {
+  /* Allow the chart to adjust to its container */
+  /* width: 100% !important;*/
+  /* height: 80% !important;*/
+}
+
+
+/* styles/globals.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    }
+  
+    
+
+    
+    .data-display {
+    margin-top: 2em;
+    }
+    
+
+    
+    .error {
+    color: red;
+    }
+    
+    .login-container {
+    max-width: 400px;
+    margin: 2em auto;
+    padding: 2em;
+    border: 1px solid #ccc;
+    }
+    
+    .login-container h1 {
+    text-align: center;
+    }
+    
+    .login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    }
+    
+    .login-container label {
+    display: flex;
+    flex-direction: column;
+    }
+    
+    .login-container button {
+    padding: 0.5em;
+    }
+    /* styles/globals.css */
+
+
+    
+    /* Adjust page container to allow content to define height */
+    .page-container {
+    /* Remove height: 100vh; */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    }
+    
+
+    
+    
+
+    
+
+    
+    
+.graph-container, .log-container {
+/* Remove height settings */
+/* height: 400px; */ /* Remove this line */
+display: flex;
+flex-direction: column;
+box-sizing: border-box;
+}
+
+
+.log-content {
+flex: 1;
+overflow-y: auto;
+}
+
+.data-display-grid {
+display: flex;
+flex-wrap: wrap;
+}
+
+.data-display-grid > div {
+box-sizing: border-box;
+}
+    
+nav, main {
+  margin: 0;
+  padding: 0;
+}

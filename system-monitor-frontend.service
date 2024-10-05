@@ -1,0 +1,15 @@
+[Unit]
+Description=System Monitor Frontend Service
+After=network.target
+
+[Service]
+Type=simple
+User="TODO"
+WorkingDirectory="TODO"
+ExecStart=/usr/bin/node server.js
+Restart=no
+Environment=NODE_ENV=production
+Environment=PORT="TODO"
+
+[Install]
+WantedBy=multi-user.target
