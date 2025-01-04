@@ -12,7 +12,7 @@
     "axios": "^1.7.7",
     "chart.js": "^4.4.4",
     "date-fns": "^4.1.0",
-    "next": "14.2.13",
+    "next": "14.2.21",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18"
