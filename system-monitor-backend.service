@@ -4,12 +4,12 @@ After=network.target
 
 [Service]
 Type=simple
-User="TODO"
-WorkingDirectory="TODO"
+User=system-monitor
+WorkingDirectory=/opt/system_monitor/backend
 ExecStart=/usr/bin/node server.js
 Restart=no
 Environment=NODE_ENV=production
-Environment=PORT="TODO"
+Environment=PORT=3000
 
 [Install]
 WantedBy=multi-user.target

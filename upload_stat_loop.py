@@ -28,11 +28,11 @@ requests.Session.__init__ = session_init_without_verification
 
 
 # Backend server URL
-BASE_URL = 'https://localhost:"TODO"/api'
+BASE_URL = os.environ.get('BASE_URL', 'https://localhost:3000/api')
 
-# Hardcoded credentials
-USERNAME = '"TODO"'
-PASSWORD = '"TODO"'
+# Credentials
+USERNAME = os.environ.get('MONITOR_USER', 'admin')
+PASSWORD = os.environ.get('MONITOR_PASS', 'change_me')
 
 # Default settings
 DEFAULT_UPDATE_INTERVAL = 5  # in seconds
@@ -64,7 +64,8 @@ def login_hardcoded():
 def get_cpu_temperature():
     """Reads CPU temperature from sysfs and converts to Celsius."""
     try:
-        with open('"TODO"/temp1_input', 'r') as f:
+        temp_path = os.environ.get('CPU_TEMP_PATH', '/sys/class/hwmon/hwmon0/temp1_input')
+        with open(temp_path, 'r') as f:
             temp_str = f.read().strip()
             temp_millidegree = int(temp_str)
             temp_celsius = temp_millidegree / 1000.0

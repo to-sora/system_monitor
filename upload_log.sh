@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Base URL of the server
-BASE_URL='https://localhost:"TODO"/api'
+BASE_URL=${BASE_URL:-https://localhost:3000/api}
 
 # Hardcoded credentials
-USERNAME='"TODO"'
-PASSWORD='"TODO"'
+USERNAME=${MONITOR_USER:-admin}
+PASSWORD=${MONITOR_PASS:-change_me}
 
 # Function for auto-login and token retrieval
 login_and_get_token() {
