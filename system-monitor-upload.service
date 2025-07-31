@@ -6,8 +6,8 @@ Requires=system-monitor-backend.service
 
 [Service]
 Type=simple
-User="TODO"
-WorkingDirectory="TODO"
+User=system-monitor
+WorkingDirectory=/opt/system_monitor
 ExecStart=/usr/bin/python3 upload_stat_loop.py
 Restart=no
 

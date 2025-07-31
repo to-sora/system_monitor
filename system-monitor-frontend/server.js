@@ -13,10 +13,11 @@ const httpsOptions = {
 };
 
 app.prepare().then(() => {
+  const PORT = process.env.PORT || 3001;
   https.createServer(httpsOptions, (req, res) => {
     handle(req, res);
-  }).listen("TODO", '0.0.0.0', (err) => {
+  }).listen(PORT, '0.0.0.0', (err) => {
     if (err) throw err;
-    console.log('> Server listening on https://0.0.0.0:"TODO"');
+    console.log(`> Server listening on https://0.0.0.0:${PORT}`);
   });
 });

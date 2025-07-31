@@ -24,8 +24,8 @@ mongoose.connect(config.database.uri, config.database.options)
 
 // Function to Create Admin User
 const createAdminUser = async () => {
-  const username = '"TODO"';
-  const password = '"TODO"'; // Replace with a strong password
+  const username = process.env.ADMIN_USER || 'admin';
+  const password = process.env.ADMIN_PASS || 'change_me'; // Replace with a strong password
 
   // Check if admin already exists
   const existingAdmin = await User.findOne({ username });

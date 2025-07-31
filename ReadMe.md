@@ -52,47 +52,16 @@ npm install
 
 ### 2. Configure the Application
 
-Several configuration files contain placeholders marked with "TODO" that need to be updated with your specific settings. Locate and replace these placeholders to ensure the application runs correctly.
+Default ports, credentials, and paths are controlled with environment variables or by editing the service files. The following variables are used:
 
-###### backed end api endpoint and user 
+- **BACKEND_PORT** – Port for the Node.js API server (default `3000`).
+- **FRONTEND_PORT** – Port for the Next.js frontend (default `3001`).
+- **BASE_URL** – API endpoint used by the upload scripts (default `https://localhost:3000/api`).
+- **MONITOR_USER** and **MONITOR_PASS** – Credentials for the upload scripts (default `admin`/`change_me`).
+- **CPU_TEMP_PATH** – Location of the CPU temperature sensor (default `/sys/class/hwmon/hwmon0/temp1_input`).
+- **ADMIN_USER** and **ADMIN_PASS** – Credentials for `backend/scripts/setupAdmin.js` (default `admin`/`change_me`).
 
-``` 
-./upload_log.sh:4:BASE_URL='https://localhost:"TODO"/api'
-./upload_log.sh:7:USERNAME='"TODO"'
-./upload_log.sh:8:PASSWORD='"TODO"'
-
-
-./system-monitor-backend.service:7:User="TODO"
-./system-monitor-backend.service:8:WorkingDirectory="TODO"
-./system-monitor-backend.service:12:Environment=PORT="TODO"
-
-./upload_stat_loop.py:31:BASE_URL = 'https://localhost:"TODO"/api'
-./upload_stat_loop.py:34:USERNAME = '"TODO"'
-./upload_stat_loop.py:35:PASSWORD = '"TODO"'
-
-./backend/config/config.yaml:2:  port: "TODO"
-./backend/config/config.yaml:22:    - "TODO"
-./backend/scripts/setupAdmin.js:27:  const username = '"TODO"';
-./backend/scripts/setupAdmin.js:28:  const password = '"TODO"'; // Replace with a strong password
-./system-monitor-upload.service:9:User="TODO"
-./system-monitor-upload.service:10:WorkingDirectory="TODO"
-
-```
-##### THe place to cat the cpu teperature  in **./upload_stat_loop.py:67:** 
-```
-    
-with open('"TODO"/temp1_input', 'r') as f:
-
-```
-##### Front end config
-```
-./system-monitor-frontend.service:7:User="TODO"
-./system-monitor-frontend.service:8:WorkingDirectory="TODO"
-./system-monitor-frontend.service:12:Environment=PORT="TODO"
-./system-monitor-frontend/server.js:20:    console.log('> Server listening on https://0.0.0.0:"TODO"');
-./system-monitor-frontend/.env.local:1:NEXT_PUBLIC_API_BASE_URL=https://"TODO":"TODO"/api
-
-```
+Edit the systemd service files if your installation path or service user differs from `/opt/system_monitor` and `system-monitor`.
 
 
 
@@ -123,3 +92,12 @@ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 ---
 ##### DailyMonitor\Screen Shot
 ![Screenshot](DailyMonitor.png)
+
+## Testing
+
+Run the `test.sh` script at the project root to execute backend tests and frontend linting:
+
+```bash
+./test.sh
+```
+
