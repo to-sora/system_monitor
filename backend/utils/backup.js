@@ -20,7 +20,7 @@ function createBackup() {
 
     // Create backup filename with timestamp
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const backupPath = path.join(BACKUP_DIR, `backup_${timestamp}.db`);
+    const backupPath = path.resolve(BACKUP_DIR, `backup_${timestamp}.db`);
 
     // Perform backup
     dbBackup(backupPath);

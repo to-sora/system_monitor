@@ -118,8 +118,12 @@ class DatabaseManager {
         fs.mkdirSync(backupDir, { recursive: true, mode: 0o700 });
       }
 
-      // Use SQLite backup API
-      this.db.backup(backupPath);
+      // Close and reopen to ensure no locks, then use simple file copy
+      // This is more reliable than the backup API for SQLite
+      this.db.pragma('wal_checkpoint(TRUNCATE)'); // Checkpoint WAL file
+
+      fs.copyFileSync(this.dbPath, backupPath);
+
       console.log('Database backup created:', backupPath);
       return backupPath;
     } catch (error) {

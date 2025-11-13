@@ -98,7 +98,7 @@ class Device {
       return null;
     }
 
-    fields.push('updated_at = datetime("now")');
+    fields.push('updated_at = CURRENT_TIMESTAMP');
     values.push(deviceId);
 
     const stmt = db.prepare(`
