@@ -1,50 +1,111 @@
-// backend/app.js
+// backend/app.new.js
+// Production-ready Express application using SQLite
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const logger = require('./utils/logger');
-const yaml = require('yamljs');
-const config = yaml.load('./config/config.yaml');
+
+// Import rate limiters
+const { apiLimiter, authLimiter, uploadLimiter, adminLimiter } = require('./middleware/rateLimiter');
+
+// Import routes
+const authRoutes = require('./routes/authRoutes.new');
+const deviceRoutes = require('./routes/deviceRoutes.new');
+const datatypeRoutes = require('./routes/datatypeRoutes.new');
+const dataRoutes = require('./routes/dataRoutes.new');
+const dataRetrievalRoutes = require('./routes/dataRetrievalRoutes.new');
+const healthRoutes = require('./routes/healthRoutes');
 
 // Middleware
-app.use(express.json());
-app.use(cors());
-app.use(helmet());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// HTTP request logging using Morgan and Winston
-// const morgan = require('morgan');
+// CORS configuration - restrict in production
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN || '*',
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
+// Security headers with Helmet
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+    },
+  },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true
+  }
+}));
 
+// HTTP request logging using Morgan (only in development/production as needed)
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan('combined'));
+}
 
-// Routes
-const authRoutes = require('./routes/authRoutes');
-const deviceRoutes = require('./routes/deviceRoutes');
-const keyRoutes = require('./routes/keyRoutes');
-const dataRetrievalRoutes = require('./routes/dataRetrievalRoutes');
-const dataRoutes = require('./routes/dataRoutes'); // Updated routes
+// Apply general API rate limiting
+app.use('/api', apiLimiter);
 
-// Apply morgan to specific routes only
-app.use('/api/auth', morgan('combined', { stream: { write: message => console.info(message.trim()) } }), authRoutes);
-app.use('/api/devices', morgan('combined', { stream: { write: message => console.info(message.trim()) } }), deviceRoutes);
-app.use('/api/keys', morgan('combined', { stream: { write: message => console.info(message.trim()) } }), keyRoutes);
+// Health check routes (no authentication required)
+app.use('/health', healthRoutes);
 
-app.use('/api/auth', authRoutes);
-app.use('/api/devices', deviceRoutes);
-app.use('/api/keys', keyRoutes);
-app.use('/api/data', dataRoutes); // For uploading DataValues
-app.use('/api/data', dataRetrievalRoutes); // For fetching data
+// Authentication routes with strict rate limiting
+app.use('/api/auth', authLimiter, authRoutes);
+
+// Data upload routes with upload-specific rate limiting
+app.use('/api/data', uploadLimiter, dataRoutes);
+
+// Data retrieval routes
+app.use('/api/data', dataRetrievalRoutes);
+
+// Device and datatype routes (admin operations)
+app.use('/api/devices', adminLimiter, deviceRoutes);
+app.use('/api/keys', adminLimiter, datatypeRoutes);
 
 // Default Route
 app.get('/', (req, res) => {
-  res.send('System Monitor Backend is running.');
+  res.json({
+    name: 'System Monitor Backend',
+    version: '2.0.0',
+    status: 'Production Ready',
+    endpoints: {
+      health: '/health',
+      auth: '/api/auth',
+      devices: '/api/devices',
+      keys: '/api/keys',
+      data: '/api/data'
+    }
+  });
+});
+
+// 404 Handler
+app.use((req, res) => {
+  res.status(404).json({ message: 'Endpoint not found' });
 });
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
-  logger.error(err.stack);
-  res.status(500).json({ message: 'Something broke!' });
+  console.error('[Error]', err.stack);
+
+  // Don't leak error details in production
+  const errorResponse = {
+    message: process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message
+  };
+
+  if (process.env.NODE_ENV !== 'production') {
+    errorResponse.stack = err.stack;
+  }
+
+  res.status(err.status || 500).json(errorResponse);
 });
 
 module.exports = app;
