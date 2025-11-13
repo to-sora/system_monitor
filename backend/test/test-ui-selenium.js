@@ -26,13 +26,19 @@ async function initBrowser() {
   console.log('🌐 Initializing Chrome browser...');
 
   const options = new chrome.Options();
-  options.addArguments('--headless'); // Run without GUI
+  options.addArguments('--headless'); // Run without GUI (old headless mode - more stable)
   options.addArguments('--no-sandbox');
   options.addArguments('--disable-dev-shm-usage');
   options.addArguments('--disable-gpu');
+  options.addArguments('--disable-software-rasterizer');
+  options.addArguments('--disable-extensions');
+  options.addArguments('--disable-setuid-sandbox');
+  options.addArguments('--remote-debugging-port=9222');
+  options.addArguments('--disable-background-networking');
   options.addArguments('--window-size=1920,1080');
   options.addArguments('--ignore-certificate-errors'); // For self-signed SSL
   options.addArguments('--allow-insecure-localhost');
+  options.addArguments('--disable-blink-features=AutomationControlled');
 
   driver = await new Builder()
     .forBrowser('chrome')
@@ -86,8 +92,8 @@ async function testLoginPage() {
   console.log('\n🧪 Test 1: Login Page');
 
   try {
-    await driver.get(FRONTEND_URL);
-    await driver.sleep(2000); // Wait for page load
+    await driver.get(FRONTEND_URL + '/login');
+    await driver.sleep(3000); // Wait for page load
 
     await takeScreenshot('login_page');
 

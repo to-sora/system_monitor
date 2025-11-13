@@ -11,11 +11,11 @@ const morgan = require('morgan');
 const { apiLimiter, authLimiter, uploadLimiter, adminLimiter } = require('./middleware/rateLimiter');
 
 // Import routes
-const authRoutes = require('./routes/authRoutes.new');
-const deviceRoutes = require('./routes/deviceRoutes.new');
-const datatypeRoutes = require('./routes/datatypeRoutes.new');
-const dataRoutes = require('./routes/dataRoutes.new');
-const dataRetrievalRoutes = require('./routes/dataRetrievalRoutes.new');
+const authRoutes = require('./routes/authRoutes');
+const deviceRoutes = require('./routes/deviceRoutes');
+const datatypeRoutes = require('./routes/datatypeRoutes');
+const dataRoutes = require('./routes/dataRoutes');
+const dataRetrievalRoutes = require('./routes/dataRetrievalRoutes');
 const healthRoutes = require('./routes/healthRoutes');
 
 // Middleware

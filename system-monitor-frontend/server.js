@@ -15,8 +15,8 @@ const httpsOptions = {
 app.prepare().then(() => {
   https.createServer(httpsOptions, (req, res) => {
     handle(req, res);
-  }).listen("TODO", '0.0.0.0', (err) => {
+  }).listen(3001, '0.0.0.0', (err) => {
     if (err) throw err;
-    console.log('> Server listening on https://0.0.0.0:"TODO"');
+    console.log('> Server listening on https://0.0.0.0:3001');
   });
 });

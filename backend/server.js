@@ -5,7 +5,7 @@ require('dotenv').config(); // Load environment variables
 
 const fs = require('fs');
 const https = require('https');
-const app = require('./app.new');
+const app = require('./app');
 const db = require('./db/database');
 const { scheduleBackups } = require('./utils/backup');
 
